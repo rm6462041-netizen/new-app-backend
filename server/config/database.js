@@ -9,20 +9,11 @@ if (!process.env.DATABASE_URL) {
 
 // Create PostgreSQL pool
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: true // Production me true, dev/testing me false
-  }
+    user: 'postgres',
+    host: 'localhost',
+    database: 'trading_app',
+    password: '195990',
+    port: 5432,
 });
-
-// Optional: test connection
-pool.connect()
-  .then(client => {
-    console.log("✅ Connected to PostgreSQL successfully!");
-    client.release();
-  })
-  .catch(err => {
-    console.error("❌ Connection error:", err.stack);
-  });
 
 module.exports = pool;
