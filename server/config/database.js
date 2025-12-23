@@ -1,19 +1,32 @@
-require('dotenv').config();
-const { Pool } = require('pg');
+// db.js
+import postgres from 'postgres'
 
-// Check if DATABASE_URL exists
-if (!process.env.DATABASE_URL) {
-  console.error("❌ DATABASE_URL missing in .env file!");
-  process.exit(1);
-}
+// Connection details
+const sql = postgres({
+  host: 'aws-1-ap-south-1.pooler.supabase.com',
+  port: 6543,
+  database: 'postgres',
+  username: 'postgres.ugqqqhdlzyymlrwqvwip',
+  password: 'SbkvV5bYxYNP2Z0D',  // apna password yaha daal do
+  ssl: true,
+  application_name: 'my-app',
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    mode: 'transaction' // aapka pool_mode
+  }
+})
 
-// Create PostgreSQL pool
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'trading_app',
-    password: '195990',
-    port: 5432,
-});
+export default sql
 
-module.exports = pool;
+// Test query
+(async () => {
+  try {
+    const result = await sql`SELECT NOW()`
+    console.log('Database connected, current time:', result)
+  } catch (err) {
+    console.error('Connection error:', err)
+  }
+})()
