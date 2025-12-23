@@ -1,19 +1,18 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-// Check if DATABASE_URL exists
+// Safety check
 if (!process.env.DATABASE_URL) {
-  console.error("❌ DATABASE_URL missing in .env file!");
+  console.error("❌ DATABASE_URL missing in environment variables");
   process.exit(1);
 }
 
-// Create PostgreSQL pool
+// Supabase connection
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'trading_app',
-    password: '195990',
-    port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 module.exports = pool;
