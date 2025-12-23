@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
+
 
 // Import middlewares
 const corsMiddleware = require('./middleware/cors');
@@ -20,7 +22,7 @@ app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api', tradeRoutes);
 app.use('/api', screenshotRoutes);
-app.use('/api', analyticsRoutes);
+app.use('/', analyticsRoutes);
 app.use('/api', passwordRoutes);
 app.use('/api', mt5Routes);
 
